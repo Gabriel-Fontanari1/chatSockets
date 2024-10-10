@@ -1,5 +1,6 @@
 package com.example.chatsockets;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -12,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity  {
                 runOnUiThread(() -> Toast.makeText(this, "Startando o servidor", Toast.LENGTH_SHORT).show());
                 servidor = new ServerSocket(12345);
                 runOnUiThread(() -> Toast.makeText(this, "Servidor startado", Toast.LENGTH_SHORT).show());
+                passarTela();
 
                 while (true) {
                     Socket cliente = servidor.accept();
@@ -49,5 +52,11 @@ public class MainActivity extends AppCompatActivity  {
                 runOnUiThread(() -> Toast.makeText(this, "Porta ocupada, ou o servidor foi fechado", Toast.LENGTH_SHORT).show());
             }
         }).start();
+    }
+
+    public void passarTela(){
+        //passar para a segunda activity, incompleto por enquanto
+        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 }
