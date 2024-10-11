@@ -12,13 +12,15 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    //atributos
     private static final int VIEW_TYPE_ENVIADA = 1;
     private static final int VIEW_TYPE_RECEBIDA = 2;
-
+    //lista das mensagens
     private List<ChatUsuario> listaChat;
-    private String usuarioAtual; // Usuário atual
+    private String usuarioAtual;
 
-    public RecyclerViewAdapter(List<ChatUsuario> listaUsuario, String usuarioAtual) {
+    //construtor
+    public RecyclerViewAdapter(List<ChatUsuario> listaChat, String usuarioAtual) {
         this.listaChat = listaChat;
         this.usuarioAtual = usuarioAtual;
     }
@@ -27,8 +29,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public int getItemViewType(int position) {
         ChatUsuario chatUsuario = listaChat.get(position);
-        // Se o nome do usuário da mensagem é o mesmo do usuário atual
-        // A mensagem é do tipo "enviada"
         if (chatUsuario.getUsername().equals(usuarioAtual)) {
             return VIEW_TYPE_ENVIADA;
         } else {
@@ -39,6 +39,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        //puxar os layouts do escritor ou remetente
         if (viewType == VIEW_TYPE_ENVIADA) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.chat_one_line_enviamsg, parent, false);
@@ -52,9 +53,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        //associa os dados da lista, ao item da recyclerview
         ChatUsuario chatUsuario = listaChat.get(position);
-
-        if (holder.getItemViewType() == VIEW_TYPE_RECEBIDA) {
+        if (holder.getItemViewType() == VIEW_TYPE_ENVIADA) {
             ((MensagemEnviadaViewHolder) holder).bind(chatUsuario);
         } else {
             ((MensagemRecebidaViewHolder) holder).bind(chatUsuario);
@@ -63,10 +64,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
+        //puxa o tamanho da lista pra recycle quantos itens prexisam ser exibidos
         return listaChat.size();
     }
 
-    // ViewHolder para mensagem enviada
+    //segurar as viws que vão ser usadas na lista
     public static class MensagemEnviadaViewHolder extends RecyclerView.ViewHolder {
         TextView messageText, userNameText;
 
@@ -82,7 +84,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    // ViewHolder para mensagem recebida
+
+    //exibir as mensagens recebidas
     public static class MensagemRecebidaViewHolder extends RecyclerView.ViewHolder {
         TextView messageText, userNameText;
 

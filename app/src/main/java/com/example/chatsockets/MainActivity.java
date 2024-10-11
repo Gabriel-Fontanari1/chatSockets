@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        // Inicia o servidor em uma nova thread
+        //startar o servidor em uma nova thread
         new Thread(() -> {
             ServerSocket servidor = null;
             try {
@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         }).start();
     }
 
+    //passa a tela se o servidor for conectado corretamente
+    //futuramente, quero que a tela de load só passe se os 2 dispositivos que forem comunicar-se estiverem conectados
     public void passarTela() {
         Intent intent = new Intent(MainActivity.this, MainActivity2.class);
         startActivity(intent);

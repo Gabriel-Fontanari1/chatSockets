@@ -11,38 +11,52 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity2 extends AppCompatActivity {
 
+    //atributos
     RecyclerView recyclerViewMessages;
     EditText inputMensagem;
     Button btnEnviar;
+    RecyclerViewAdapter adapter;
+    List<ChatUsuario> listaChat = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main2);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.mainChat), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
-        //chat principal
+        //findviews
         recyclerViewMessages = findViewById(R.id.recyclerViewMessages);
         inputMensagem = findViewById(R.id.inputMensagem);
         btnEnviar = findViewById(R.id.btnEnviar);
+
+        //config do layoutmanager e do adapter
+        recyclerViewMessages.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new RecyclerViewAdapter(listaChat, "SeuNomeDeUsuario");
+        recyclerViewMessages.setAdapter(adapter);
         pressButton();
     }
 
-    public void pressButton(){
+    //função para adicionar criar uma nova mensagem e adicionar ela na lista
+    public void pressButton() {
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Editable msg = inputMensagem.getText();
-                //enviar para o recycler view a mensagem do usr
+                String msg = inputMensagem.getText().toString().trim();
+                if (!msg.isEmpty()) {
+                    ChatUsuario novaMensagem = new ChatUsuario("SeuNomeDeUsuario", msg, "127.0.0.1");
+                    listaChat.add(novaMensagem);
+                    adapter.notifyItemInserted(listaChat.size() - 1);
+                    inputMensagem.setText("");
+                    recyclerViewMessages.scrollToPosition(listaChat.size() - 1);
+                }
             }
         });
     }
