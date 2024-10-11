@@ -1,6 +1,8 @@
 package com.example.chatsockets;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -32,5 +34,16 @@ public class MainActivity2 extends AppCompatActivity {
         recyclerViewMessages = findViewById(R.id.recyclerViewMessages);
         inputMensagem = findViewById(R.id.inputMensagem);
         btnEnviar = findViewById(R.id.btnEnviar);
+        pressButton();
+    }
+
+    public void pressButton(){
+        btnEnviar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Editable msg = inputMensagem.getText();
+                //enviar para o recycler view a mensagem do usr
+            }
+        });
     }
 }

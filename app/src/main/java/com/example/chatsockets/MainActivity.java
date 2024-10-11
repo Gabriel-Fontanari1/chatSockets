@@ -57,5 +57,6 @@ public class MainActivity extends AppCompatActivity {
     public void passarTela() {
         Intent intent = new Intent(MainActivity.this, MainActivity2.class);
         startActivity(intent);
+        finish();
     }
 }
