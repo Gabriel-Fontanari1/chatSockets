@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.mainChat), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -32,8 +32,9 @@ public class MainActivity extends AppCompatActivity {
             ServerSocket servidor = null;
             try {
                 runOnUiThread(() -> Toast.makeText(this, "Iniciando o servidor", Toast.LENGTH_SHORT).show());
-                servidor = new ServerSocket(54321); // Porta alterada para teste
+                servidor = new ServerSocket(54321);
                 runOnUiThread(() -> Toast.makeText(this, "Servidor iniciado", Toast.LENGTH_SHORT).show());
+                passarTela();
 
                 while (true) {
                     Socket cliente = servidor.accept();
@@ -54,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void passarTela() {
-        // Passa para a próxima activity (ChatActivity)
         Intent intent = new Intent(MainActivity.this, MainActivity2.class);
         startActivity(intent);
     }
