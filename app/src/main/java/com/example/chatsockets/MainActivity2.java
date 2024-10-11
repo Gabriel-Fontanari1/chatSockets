@@ -1,14 +1,21 @@
 package com.example.chatsockets;
 
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity2 extends AppCompatActivity {
+
+    RecyclerView recyclerViewMessages;
+    EditText inputMensagem;
+    Button btnEnviar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +28,9 @@ public class MainActivity2 extends AppCompatActivity {
             return insets;
         });
 
-
+        //chat principal
+        recyclerViewMessages = findViewById(R.id.recyclerViewMessages);
+        inputMensagem = findViewById(R.id.inputMensagem);
+        btnEnviar = findViewById(R.id.btnEnviar);
     }
 }
