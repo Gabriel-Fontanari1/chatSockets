@@ -1,10 +1,10 @@
 package com.example.chatsockets;
 
-public class ChatMessage {
+public class ChatUsuario {
     private String username;
     private String mensagem;
 
-    public ChatMessage (String username, String mensagem) {
+    public ChatUsuario(String username, String mensagem) {
         this.username = username;
         this.mensagem = mensagem;
     }
