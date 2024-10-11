@@ -55,6 +55,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         //associa os dados da lista, ao item da recyclerview
         ChatUsuario chatUsuario = listaChat.get(position);
+
         if (holder.getItemViewType() == VIEW_TYPE_ENVIADA) {
             ((MensagemEnviadaViewHolder) holder).bind(chatUsuario);
         } else {
