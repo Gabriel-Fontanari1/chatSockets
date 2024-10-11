@@ -1,5 +1,6 @@
 package com.example.chatsockets;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -13,7 +14,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,28 +27,35 @@ public class MainActivity extends AppCompatActivity  {
             return insets;
         });
 
-        // Instancia o servidor em uma nova thread
+        // Inicia o servidor em uma nova thread
         new Thread(() -> {
             ServerSocket servidor = null;
             try {
-                runOnUiThread(() -> Toast.makeText(this, "Startando o servidor", Toast.LENGTH_SHORT).show());
-                servidor = new ServerSocket(12345);
-                runOnUiThread(() -> Toast.makeText(this, "Servidor startado", Toast.LENGTH_SHORT).show());
+                runOnUiThread(() -> Toast.makeText(this, "Iniciando o servidor", Toast.LENGTH_SHORT).show());
+                servidor = new ServerSocket(54321); // Porta alterada para teste
+                runOnUiThread(() -> Toast.makeText(this, "Servidor iniciado", Toast.LENGTH_SHORT).show());
 
                 while (true) {
                     Socket cliente = servidor.accept();
-                    new GerenciadorDeClientes(cliente);
+                    new GerenciadorDeClientes(cliente, MainActivity.this);
                 }
 
             } catch (IOException e) {
+                e.printStackTrace();
+                runOnUiThread(() -> Toast.makeText(this, "Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show());
                 try {
                     if (servidor != null)
                         servidor.close();
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                runOnUiThread(() -> Toast.makeText(this, "Porta ocupada, ou o servidor foi fechado", Toast.LENGTH_SHORT).show());
             }
         }).start();
+    }
+
+    public void passarTela() {
+        // Passa para a próxima activity (ChatActivity)
+        Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+        startActivity(intent);
     }
 }
