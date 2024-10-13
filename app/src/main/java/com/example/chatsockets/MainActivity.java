@@ -26,44 +26,7 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        new Thread(() -> {
-            ServerSocket servidor = null;
-            try {
-                runOnUiThread(() -> Toast.makeText(this, "Iniciando o servidor", Toast.LENGTH_SHORT).show());
-                servidor = new ServerSocket(54321);
-                runOnUiThread(() -> Toast.makeText(this, "Servidor iniciado", Toast.LENGTH_SHORT).show());
-
-                while (true) {
-                    Socket cliente = servidor.accept();
-                    runOnUiThread(() -> Toast.makeText(this, "Cliente conectado!", Toast.LENGTH_SHORT).show());
-                    new GerenciadorDeClientes(cliente, MainActivity.this);
-
-                    synchronized (GerenciadorDeClientes.lock) {
-                        System.out.println("Clientes conectados: " + GerenciadorDeClientes.clientesConectados);
-                        if (GerenciadorDeClientes.clientesConectados == 2) {
-                            System.out.println("Ambos os clientes estão conectados no servidor.");
-                            runOnUiThread(() -> {
-                                Toast.makeText(this, "Ambos os clientes conectados!", Toast.LENGTH_SHORT).show();
-                                passarTela();
-                            });
-                            break;
-                        }
-                    }
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                runOnUiThread(() -> Toast.makeText(this, "Erro: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-                try {
-                    if (servidor != null)
-                        servidor.close();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }).start();
-
+        passarTela();
     }
 
     public void passarTela() {
