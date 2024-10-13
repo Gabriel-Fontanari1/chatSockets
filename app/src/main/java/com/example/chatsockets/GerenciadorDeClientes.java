@@ -10,6 +10,8 @@ import java.net.Socket;
 public class GerenciadorDeClientes extends Thread {
     private Socket cliente;
     private String nomeCliente;
+    static int clientesConectados = 0;
+    static final Object lock = new Object();
 
     public GerenciadorDeClientes(Socket cliente, Context context) {
         this.cliente = cliente;
@@ -21,12 +23,25 @@ public class GerenciadorDeClientes extends Thread {
         try {
             BufferedReader leitor = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
             PrintWriter escritor = new PrintWriter(cliente.getOutputStream(), true);
+
             String msg = leitor.readLine();
             this.nomeCliente = msg;
+            System.out.println("Cliente conectado: " + this.nomeCliente);
+
+            synchronized (lock) {
+                clientesConectados++;
+                System.out.println("Clientes conectados: " + clientesConectados);
+                if (clientesConectados == 2) {
+                    escritor.println("Ambos os clientes conectados");
+                    System.out.println("Ambos os clientes estão conectados.");
+                }
+            }
 
             while (true) {
                 msg = leitor.readLine();
-                escritor.println(this.nomeCliente + ": " + msg);
+                if (msg != null) {
+                    escritor.println(this.nomeCliente + ": " + msg);
+                }
             }
 
         } catch (IOException e) {
@@ -34,4 +49,5 @@ public class GerenciadorDeClientes extends Thread {
             e.printStackTrace();
         }
     }
+
 }

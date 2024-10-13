@@ -12,20 +12,16 @@ import java.util.List;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    //atributos
     private static final int VIEW_TYPE_ENVIADA = 1;
     private static final int VIEW_TYPE_RECEBIDA = 2;
-    //lista das mensagens
     private List<ChatUsuario> listaChat;
     private String usuarioAtual;
 
-    //construtor
     public RecyclerViewAdapter(List<ChatUsuario> listaChat, String usuarioAtual) {
         this.listaChat = listaChat;
         this.usuarioAtual = usuarioAtual;
     }
 
-    // Metodo para verificar se a mensagem é enviada ou recebida.
     @Override
     public int getItemViewType(int position) {
         ChatUsuario chatUsuario = listaChat.get(position);
@@ -39,7 +35,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //puxar os layouts do escritor ou remetente
         if (viewType == VIEW_TYPE_ENVIADA) {
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.chat_one_line_enviamsg, parent, false);
@@ -53,7 +48,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        //associa os dados da lista, ao item da recyclerview
+
         ChatUsuario chatUsuario = listaChat.get(position);
 
         if (holder.getItemViewType() == VIEW_TYPE_ENVIADA) {
@@ -65,11 +60,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemCount() {
-        //puxa o tamanho da lista pra recycle quantos itens prexisam ser exibidos
         return listaChat.size();
     }
 
-    //segurar as viws que vão ser usadas na lista
     public static class MensagemEnviadaViewHolder extends RecyclerView.ViewHolder {
         TextView messageText, userNameText;
 
@@ -85,8 +78,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-
-    //exibir as mensagens recebidas
     public static class MensagemRecebidaViewHolder extends RecyclerView.ViewHolder {
         TextView messageText, userNameText;
 

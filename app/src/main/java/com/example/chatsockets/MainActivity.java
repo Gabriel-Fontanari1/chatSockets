@@ -27,18 +27,29 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        //startar o servidor em uma nova thread
         new Thread(() -> {
             ServerSocket servidor = null;
             try {
                 runOnUiThread(() -> Toast.makeText(this, "Iniciando o servidor", Toast.LENGTH_SHORT).show());
                 servidor = new ServerSocket(54321);
                 runOnUiThread(() -> Toast.makeText(this, "Servidor iniciado", Toast.LENGTH_SHORT).show());
-                passarTela();
 
                 while (true) {
                     Socket cliente = servidor.accept();
+                    runOnUiThread(() -> Toast.makeText(this, "Cliente conectado!", Toast.LENGTH_SHORT).show());
                     new GerenciadorDeClientes(cliente, MainActivity.this);
+
+                    synchronized (GerenciadorDeClientes.lock) {
+                        System.out.println("Clientes conectados: " + GerenciadorDeClientes.clientesConectados);
+                        if (GerenciadorDeClientes.clientesConectados == 2) {
+                            System.out.println("Ambos os clientes estão conectados no servidor.");
+                            runOnUiThread(() -> {
+                                Toast.makeText(this, "Ambos os clientes conectados!", Toast.LENGTH_SHORT).show();
+                                passarTela();
+                            });
+                            break;
+                        }
+                    }
                 }
 
             } catch (IOException e) {
@@ -52,10 +63,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }).start();
+
     }
 
-    //passa a tela se o servidor for conectado corretamente
-    //futuramente, quero que a tela de load só passe se os 2 dispositivos que forem comunicar-se estiverem conectados
     public void passarTela() {
         Intent intent = new Intent(MainActivity.this, MainActivity2.class);
         startActivity(intent);

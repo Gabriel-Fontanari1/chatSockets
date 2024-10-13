@@ -19,7 +19,6 @@ import java.util.List;
 
 public class MainActivity2 extends AppCompatActivity {
 
-    //atributos
     RecyclerView recyclerViewMessages;
     EditText inputMensagem;
     Button btnEnviar;
@@ -44,14 +43,13 @@ public class MainActivity2 extends AppCompatActivity {
         pressButton();
     }
 
-    //função para adicionar criar uma nova mensagem e adicionar ela na lista
     public void pressButton() {
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String msg = inputMensagem.getText().toString().trim();
                 if (!msg.isEmpty()) {
-                    ChatUsuario novaMensagem = new ChatUsuario("SeuNomeDeUsuario", msg, "127.0.0.1");
+                    ChatUsuario novaMensagem = new ChatUsuario("SeuNomeDeUsuario", msg, "192.168.0.3");
                     listaChat.add(novaMensagem);
                     adapter.notifyItemInserted(listaChat.size() - 1);
                     inputMensagem.setText("");
