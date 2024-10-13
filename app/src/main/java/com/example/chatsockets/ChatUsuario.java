@@ -28,7 +28,7 @@ public class ChatUsuario {
 
     public static String clienteSocket(final String username, final String mensagem){
         try {
-            final Socket cliente = new Socket("192.168.0.3", 54321);
+            final Socket cliente = new Socket("10.0.2.2", 54321);
             new Thread(){
                 @Override
                 public void run() {

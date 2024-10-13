@@ -2,6 +2,7 @@ package com.example.chatsockets;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -15,6 +16,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class MainActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +35,12 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(() -> Toast.makeText(this, "Iniciando o servidor", Toast.LENGTH_SHORT).show());
                 servidor = new ServerSocket(54321);
                 runOnUiThread(() -> Toast.makeText(this, "Servidor iniciado", Toast.LENGTH_SHORT).show());
+                Log.d("Servidor", "Servdor iniciado na porta 54321");
 
                 while (true) {
+                    Log.d("Servidor", "Aguardando conexão de clientes...");
                     Socket cliente = servidor.accept();
+                    Log.d("Servidor", "Cliente conectado: " + cliente.getInetAddress());
                     runOnUiThread(() -> Toast.makeText(this, "Cliente conectado!", Toast.LENGTH_SHORT).show());
                     new GerenciadorDeClientes(cliente, MainActivity.this);
 
@@ -43,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                         System.out.println("Clientes conectados: " + GerenciadorDeClientes.clientesConectados);
                         if (GerenciadorDeClientes.clientesConectados == 2) {
                             System.out.println("Ambos os clientes estão conectados no servidor.");
+                            Log.d("Servidor", "Ambos os clientes estão conectados");
                             runOnUiThread(() -> {
                                 Toast.makeText(this, "Ambos os clientes conectados!", Toast.LENGTH_SHORT).show();
                                 passarTela();
