@@ -49,11 +49,13 @@ public class MainActivity2 extends AppCompatActivity {
             public void onClick(View v) {
                 String msg = inputMensagem.getText().toString().trim();
                 if (!msg.isEmpty()) {
-                    ChatUsuario novaMensagem = new ChatUsuario("SeuNomeDeUsuario", msg, "192.168.0.3");
+                    ChatUsuario novaMensagem = new ChatUsuario("SeuNomeDeUsuario", msg, "10.0.2.2");
                     listaChat.add(novaMensagem);
                     adapter.notifyItemInserted(listaChat.size() - 1);
                     inputMensagem.setText("");
                     recyclerViewMessages.scrollToPosition(listaChat.size() - 1);
+
+                    ChatUsuario.clienteSocket("SeuNomeDeUsuario", msg);
                 }
             }
         });
